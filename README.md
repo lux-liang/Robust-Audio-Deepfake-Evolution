@@ -261,7 +261,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions, issues, or collaborations, please open an issue on GitHub or contact the maintainers.
 
+**Email:** lux.liang@outlook.email
+
 ---
 
-**Last Updated:** December 2024  
+**Last Updated:** December 2025  
 **Version:** Phase 6 (Robust Final)
