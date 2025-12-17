@@ -1,0 +1,119 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+*.pth.tar
+*.pt.tar
+
+# Logs
+*.log
+*.log.*
+*.out
+*.err
+
+# Data directories (too large for git)
+data/
+LA/
+ASVspoof*/
+pretrained/
+models/weights/
+exp_result/
+backup_models/
+SOTA_Backup*/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*_pid.txt
+*.pid
+
+# Test files
+test_write.txt
+test_write_check.txt
+
+# Keys and credentials
+keys/
+*.key
+*.pem
+
+# Results and outputs
+exp_result/
+eval_scores_*.txt
+dirty_samples*.txt
+
+# Model checkpoints and weights
+checkpoints/
+weights/
+*.pth
+*.pt
+*.ckpt
+
+# TensorBoard
+runs/
+logs/
+tensorboard/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Project specific
+phase*_watch*.py
+phase*_pid.txt
+training_pid*.txt
+=4.35.0
+
+# Unrelated folders (exclude from repository)
+awesome-chatgpt-prompts*/
+xju_badminton_helper/
+__pycache__/
+*.pyc
+.DS_Store

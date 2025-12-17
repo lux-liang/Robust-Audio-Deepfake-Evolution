@@ -1,0 +1,31 @@
+# Core Deep Learning Framework
+torch>=1.6.0
+torchaudio>=0.6.0
+torchcontrib
+
+# Mamba State Space Models
+mamba-ssm>=1.0.0
+
+# Transformers and Pre-trained Models
+transformers>=4.20.0
+
+# Parameter-Efficient Fine-Tuning (LoRA)
+peft>=0.3.0
+
+# Scientific Computing
+numpy>=1.19.0
+scipy>=1.5.0
+
+# Audio Processing
+soundfile>=0.10.0
+
+# Visualization
+matplotlib>=3.3.0
+seaborn>=0.11.0
+
+# Utilities
+tqdm>=4.60.0
+tensorboard>=2.4.0
+
+# Optional: For advanced data augmentation
+librosa>=0.8.0
