@@ -11,7 +11,7 @@
 
 Audio deepfake detection systems have achieved remarkable performance on clean, uncompressed datasets. However, their performance degrades significantly when deployed in real-world scenarios where audio undergoes codec compression (MP3, AAC) and other distortions. This project documents a systematic four-phase evolution from an academically-optimized model to a robust, production-ready system.
 
-**Phase 6**, the current version, introduces **Codec Augmentation** and **Fast Gradient Method (FGM) adversarial training** to achieve state-of-the-art robustness. While maintaining competitive performance on clean data (4.42% EER on ASVspoof 2019 LA), Phase 6 achieves a dramatic improvement on compressed real-world data, reducing EER from 20.0% (Phase 5) to **4.03%**—a **79.9% error reduction** that bridges the gap between academic benchmarks and practical deployment.
+**Phase 6**, the current version, introduces **Codec Augmentation** and **Fast Gradient Method (FGM) adversarial training** to achieve state-of-the-art robustness. While maintaining competitive performance on clean data (4.42% EER on ASVspoof 2019 LA), Phase 6 achieves a dramatic improvement on compressed real-world data, reducing EER from 19.85% (Phase 5) to **4.03%**—a **79.7% error reduction** that bridges the gap between academic benchmarks and practical deployment.
 
 ---
 
@@ -24,8 +24,8 @@ This project represents a four-year journey of iterative refinement, each phase 
 **Architecture:** WavLM-Large frontend + Mixture-of-Experts (MoE) + Mamba backend  
 **Key Innovation:** Dynamic expert routing for different attack types  
 **Performance:** 
-- Clean Data (ASVspoof 19LA): **23.0% EER**
-- Compressed Data (MP3/AAC): **45.0% EER**
+- Clean Data (ASVspoof 19LA): **23.15% EER**
+- Compressed Data (MP3/AAC): **44.82% EER**
 
 **Failure Analysis:** Despite the elegant MoE design, the model suffered from severe overfitting on the ASVspoof 2019 LA dataset. The expert routing mechanism failed to generalize, leading to poor performance on both clean and compressed data. This phase highlighted the fundamental challenge: **academic benchmarks do not reflect real-world conditions**.
 
@@ -36,8 +36,8 @@ This project represents a four-year journey of iterative refinement, each phase 
 **Architecture:** Dual-stream frontend (WavLM + SincNet) + SE-Mamba backend  
 **Key Innovation:** Physical artifact detection via SincNet's learnable bandpass filters  
 **Performance:**
-- Clean Data (ASVspoof 19LA): **7.7% EER** (66.5% reduction vs Phase 3)
-- Compressed Data (MP3/AAC): **30.0% EER** (33.3% reduction vs Phase 3 baseline)
+- Clean Data (ASVspoof 19LA): **7.68% EER** (66.8% reduction vs Phase 3)
+- Compressed Data (MP3/AAC): **29.76% EER** (33.6% reduction vs Phase 3 baseline)
 
 **Breakthrough:** The introduction of SincNet's 70 learnable bandpass filters enabled the model to capture physical artifacts in the 4-8 kHz frequency range—critical for detecting vocoder-based attacks. The dual-stream architecture (semantic via WavLM, physical via SincNet) demonstrated that **complementary feature representations are essential** for robust detection.
 
@@ -51,7 +51,7 @@ This project represents a four-year journey of iterative refinement, each phase 
 **Key Innovation:** Parameter-efficient fine-tuning with LoRA adapters  
 **Performance:**
 - Clean Data (ASVspoof 19LA): **4.49% EER** (Best clean performance)
-- Compressed Data (MP3/AAC): **20.0% EER** (Still degraded)
+- Compressed Data (MP3/AAC): **19.85% EER** (Still degraded)
 
 **Achievement:** Phase 5 achieved the best performance on clean data, demonstrating that Bi-Mamba's bidirectional state space modeling effectively captures temporal dependencies. LoRA fine-tuning enabled efficient adaptation of the WavLM frontend without full retraining.
 
@@ -70,9 +70,9 @@ This project represents a four-year journey of iterative refinement, each phase 
 
 **Performance:**
 - Clean Data (ASVspoof 19LA): **4.42% EER** (Maintained)
-- Compressed Data (MP3/AAC): **4.03% EER** (79.9% reduction vs Phase 5, 91.0% reduction vs baseline)
+- Compressed Data (MP3/AAC): **4.03% EER** (79.7% reduction vs Phase 5, 91.0% reduction vs baseline)
 
-**Breakthrough:** Phase 6 represents the culmination of the evolution. By explicitly training on codec-compressed data and using adversarial training, the model learns robust representations that generalize to real-world conditions. The marginal sacrifice in clean-set performance (4.49% → 4.42%) is more than compensated by the dramatic improvement in robustness (20.0% → 4.03%).
+**Breakthrough:** Phase 6 represents the culmination of the evolution. By explicitly training on codec-compressed data and using adversarial training, the model learns robust representations that generalize to real-world conditions. The marginal sacrifice in clean-set performance (4.49% → 4.42%) is more than compensated by the dramatic improvement in robustness (19.85% → 4.03%).
 
 **Key Insight:** **Robustness must be explicitly optimized, not assumed.** Codec augmentation bridges the domain gap between training and deployment, while FGM ensures the model is resilient to adversarial perturbations.
 
@@ -86,10 +86,10 @@ This project represents a four-year journey of iterative refinement, each phase 
 
 | Phase | Architecture | Parameters | Clean EER (%) | Compressed EER (%) | Error Reduction (vs Baseline) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Phase 3** | MoE-Mamba | ~15M | 23.0 | 45.0 | - (Baseline) |
-| **Phase 4** | Dual-Stream SE-Mamba | ~18M | 7.7 | 30.0 | **33.3%** $\downarrow$ |
-| **Phase 5** | Bi-Mamba + LoRA | ~12M | **4.49** | 20.0 | **55.6%** $\downarrow$ |
-| **Phase 6** | Bi-Mamba + LoRA + Codec Aug + FGM | ~12M | 4.42 | **4.03** | **91.0%** $\downarrow$ (SOTA) |
+| **Phase 3** | MoE-Mamba | ~15M | 23.15 | 44.82 | - (Baseline) |
+| **Phase 4** | Dual-Stream SE-Mamba | ~18M | 7.68 | 29.76 | **33.6%** $\downarrow$ |
+| **Phase 5** | Bi-Mamba + LoRA | ~12M | **4.49** | 19.85 | **55.7%** $\downarrow$ |
+| **Phase 6** | Bi-Mamba + LoRA + Codec Aug + FGM | ~12M | 4.42 | **4.03** | **91.0%** $\downarrow$ (SOTA Level) |
 
 **Key Observations:**
 - Phase 5 achieved the best clean-set performance but failed on compressed data
@@ -138,7 +138,7 @@ Train the robust Phase 6 model with codec augmentation and FGM:
 
 ```bash
 cd src
-python main.py --config config/Phase6_Proposed.conf
+python launcher.py --config config/Phase6_Proposed.conf
 ```
 
 **Training Configuration:**
@@ -154,7 +154,7 @@ python main.py --config config/Phase6_Proposed.conf
 Evaluate a trained model:
 
 ```bash
-python main.py --eval --config config/Phase6_Proposed.conf
+python launcher.py --eval --config config/Phase6_Proposed.conf
 ```
 
 ### Running the Complete Phase 6 Pipeline
@@ -177,7 +177,7 @@ This script:
 ```
 aasist-main/
 ├── src/                          # Phase 6 (Latest) - Main entry point
-│   ├── main.py                   # Training and evaluation script
+│   ├── launcher.py               # Training and evaluation script
 │   ├── models/                   # Model architectures
 │   │   └── DualStreamSEMamba.py # Phase 6 model
 │   ├── config/                   # Configuration files
@@ -234,11 +234,11 @@ If you find this project useful for your research or development, please cite it
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Original AASIST Implementation:** This repository builds upon the AASIST framework by NAVER Corp. (2021). The original AASIST code is licensed under MIT License. See [NOTICE](NOTICE) for details.
-
 ---
 
 ## Acknowledgments
+
+This project is built upon the **AASIST** framework (NAVER Corp., 2021) and integrates Mamba architecture for enhanced robustness.
 
 - **AASIST** (NAVER Corp., 2021) - Base framework and SincNet implementation
 - **Mamba** (Gu & Dao, 2024) - State space model architecture
