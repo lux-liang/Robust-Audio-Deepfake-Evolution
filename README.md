@@ -11,7 +11,7 @@
 
 Audio deepfake detection systems have achieved remarkable performance on clean, uncompressed datasets. However, their performance degrades significantly when deployed in real-world scenarios where audio undergoes codec compression (MP3, AAC) and other distortions. This project documents a systematic four-phase evolution from an academically-optimized model to a robust, production-ready system.
 
-**Phase 6**, the current version, introduces **Codec Augmentation** and **Fast Gradient Method (FGM) adversarial training** to achieve state-of-the-art robustness. While maintaining competitive performance on clean data (4.42% EER on ASVspoof 2019 LA), Phase 6 achieves a dramatic improvement on compressed real-world data, reducing EER from 20.0% (Phase 5) to **4.03%**—a **5× improvement** that bridges the gap between academic benchmarks and practical deployment.
+**Phase 6**, the current version, introduces **Codec Augmentation** and **Fast Gradient Method (FGM) adversarial training** to achieve state-of-the-art robustness. While maintaining competitive performance on clean data (4.42% EER on ASVspoof 2019 LA), Phase 6 achieves a dramatic improvement on compressed real-world data, reducing EER from 20.0% (Phase 5) to **4.03%**—a **79.9% error reduction** that bridges the gap between academic benchmarks and practical deployment.
 
 ---
 
@@ -36,8 +36,8 @@ This project represents a four-year journey of iterative refinement, each phase 
 **Architecture:** Dual-stream frontend (WavLM + SincNet) + SE-Mamba backend  
 **Key Innovation:** Physical artifact detection via SincNet's learnable bandpass filters  
 **Performance:**
-- Clean Data (ASVspoof 19LA): **7.7% EER** (3× improvement)
-- Compressed Data (MP3/AAC): **30.0% EER** (1.5× improvement)
+- Clean Data (ASVspoof 19LA): **7.7% EER** (66.5% reduction vs Phase 3)
+- Compressed Data (MP3/AAC): **30.0% EER** (33.3% reduction vs Phase 3 baseline)
 
 **Breakthrough:** The introduction of SincNet's 70 learnable bandpass filters enabled the model to capture physical artifacts in the 4-8 kHz frequency range—critical for detecting vocoder-based attacks. The dual-stream architecture (semantic via WavLM, physical via SincNet) demonstrated that **complementary feature representations are essential** for robust detection.
 
@@ -70,7 +70,7 @@ This project represents a four-year journey of iterative refinement, each phase 
 
 **Performance:**
 - Clean Data (ASVspoof 19LA): **4.42% EER** (Maintained)
-- Compressed Data (MP3/AAC): **4.03% EER** (5× improvement over Phase 5)
+- Compressed Data (MP3/AAC): **4.03% EER** (79.9% reduction vs Phase 5, 91.0% reduction vs baseline)
 
 **Breakthrough:** Phase 6 represents the culmination of the evolution. By explicitly training on codec-compressed data and using adversarial training, the model learns robust representations that generalize to real-world conditions. The marginal sacrifice in clean-set performance (4.49% → 4.42%) is more than compensated by the dramatic improvement in robustness (20.0% → 4.03%).
 
@@ -84,17 +84,17 @@ This project represents a four-year journey of iterative refinement, each phase 
 
 ### Quantitative Comparison
 
-| Phase | Architecture | Parameters | Clean EER (%) | Compressed EER (%) | Robustness Gain |
-|-------|-------------|------------|---------------|-------------------|-----------------|
-| **Phase 3** | MoE-Mamba | ~15M | 23.0 | 45.0 | Baseline |
-| **Phase 4** | Dual-Stream SE-Mamba | ~18M | 7.7 | 30.0 | 1.5× |
-| **Phase 5** | Bi-Mamba + LoRA | ~12M | **4.49** | 20.0 | 2.25× |
-| **Phase 6** | Bi-Mamba + LoRA + Codec Aug + FGM | ~12M | 4.42 | **4.03** | **5×** |
+| Phase | Architecture | Parameters | Clean EER (%) | Compressed EER (%) | Error Reduction (vs Baseline) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Phase 3** | MoE-Mamba | ~15M | 23.0 | 45.0 | - (Baseline) |
+| **Phase 4** | Dual-Stream SE-Mamba | ~18M | 7.7 | 30.0 | **33.3%** $\downarrow$ |
+| **Phase 5** | Bi-Mamba + LoRA | ~12M | **4.49** | 20.0 | **55.6%** $\downarrow$ |
+| **Phase 6** | Bi-Mamba + LoRA + Codec Aug + FGM | ~12M | 4.42 | **4.03** | **91.0%** $\downarrow$ (SOTA) |
 
 **Key Observations:**
 - Phase 5 achieved the best clean-set performance but failed on compressed data
 - Phase 6 maintains competitive clean performance while achieving SOTA robustness
-- The robustness gain (5×) demonstrates the effectiveness of codec augmentation
+- Phase 6 achieves 91.0% error reduction compared to the baseline, demonstrating the effectiveness of codec augmentation
 
 ### Inference Speed
 
@@ -112,8 +112,8 @@ Approximate inference times on NVIDIA V100 GPU (batch size=32):
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/aasist-main.git
-cd aasist-main
+git clone https://github.com/lux-liang/Robust-Audio-Deepfake-Evolution.git
+cd Robust-Audio-Deepfake-Evolution
 
 # Install dependencies
 pip install -r requirements.txt
