@@ -215,19 +215,18 @@ aasist-main/
 
 ## Citation
 
-If you use this code or find our work useful, please cite:
+If you find this project useful for your research or development, please cite it as follows:
 
 ```bibtex
-@article{yourname2025robust,
-  title={From Fragile to Robust: The Evolution of Audio Deepfake Detection},
-  author={Your Name and Collaborators},
-  journal={IJCNN},
-  year={2026},
-  note={Under Review}
+@misc{liang2025robust,
+  author = {Liang, Jialiang},
+  title = {Robust-Audio-Deepfake-Evolution: BiMamba-based Audio Deepfake Detection System},
+  year = {2025},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/lux-liang/Robust-Audio-Deepfake-Evolution}}
 }
 ```
-
-**Note:** This work is currently under review for IJCNN 2026. Citation information will be updated upon acceptance.
 
 ---
 
